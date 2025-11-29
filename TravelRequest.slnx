@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="TravelRequest/TravelRequest.csproj" />
+  <Project Path="TravelRequests.Application/TravelRequests.Application.csproj" Id="46fd1930-d671-4e29-9f20-401a0ed728ec" />
+  <Project Path="TravelRequests.Domain/TravelRequests.Domain.csproj" Id="2a7e8764-d847-4fbb-8fda-147ac75b3ab8" />
+  <Project Path="TravelRequests.Infrastructure/TravelRequests.Infrastructure.csproj" Id="52c060f6-73c4-4ad2-a8a9-4b284de0a97c" />
 </Solution>
