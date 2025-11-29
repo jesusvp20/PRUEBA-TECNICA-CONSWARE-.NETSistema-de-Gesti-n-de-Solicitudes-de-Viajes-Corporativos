@@ -7,7 +7,7 @@
 bin/
 obj/
 
-# Rider / VSCode
+# IDEs
 .idea/
 .vscode/
 
@@ -17,22 +17,5 @@ obj/
 Thumbs.db
 .DS_Store
 
-# Environments
-env/
-venv/
-include/
-lib/
-libs/
-Pyvenv.cfg
-pip-log.txt
-pip-delete-this-directory.txt
-.Python
-python_env/
-*.egg-info/
-*.egg
-__pycache__/
-*.py[cod]
-*$py.class
-
-takeown /f ".vs\TravelRequest.slnx\FileContentIndex\6c865eb5-e628-45d4-b5c3-1a3a0a7dba44.vsidx"
-icacls ".vs\TravelRequest.slnx\FileContentIndex\6c865eb5-e628-45d4-b5c3-1a3a0a7dba44.vsidx" /grant "%USERNAME%:R"
+# Docker
+*.env
