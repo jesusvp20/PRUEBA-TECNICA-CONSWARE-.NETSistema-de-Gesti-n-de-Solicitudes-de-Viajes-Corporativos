@@ -15,12 +15,14 @@ namespace TravelRequests.Infrastructure.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    HasContraseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rol = table.Column<int>(type: "int", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaActualizacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +34,13 @@ namespace TravelRequests.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    FechaGeneracion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaExpiracion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EstaUsado = table.Column<bool>(type: "bit", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Activo = table.Column<bool>(type: "bit", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +57,8 @@ namespace TravelRequests.Infrastructure.Migrations
                 name: "SolicitudesViaje",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CiudadOrigen = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CiudadDestino = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     FechaIda = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -60,7 +66,7 @@ namespace TravelRequests.Infrastructure.Migrations
                     Justificacion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Estado = table.Column<int>(type: "int", nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

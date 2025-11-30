@@ -12,7 +12,7 @@ using TravelRequests.Infrastructure.Data;
 namespace TravelRequests.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251129190708_InitialCreate")]
+    [Migration("20251129232355_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,10 +31,17 @@ namespace TravelRequests.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Codigo")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("EstaUsado")
                         .HasColumnType("bit");
@@ -42,8 +49,11 @@ namespace TravelRequests.Infrastructure.Migrations
                     b.Property<DateTime>("FechaExpiracion")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("FechaGeneracion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -55,9 +65,11 @@ namespace TravelRequests.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelRequests.Domain.Entities.SolicitudViaje", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CiudadDestino")
                         .IsRequired()
@@ -86,8 +98,8 @@ namespace TravelRequests.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -101,21 +113,26 @@ namespace TravelRequests.Infrastructure.Migrations
 
             modelBuilder.Entity("TravelRequests.Domain.Entities.Usuario", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Contraseña")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Correo")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<DateTime>("FechaActualizacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HasContraseña")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -147,7 +164,7 @@ namespace TravelRequests.Infrastructure.Migrations
             modelBuilder.Entity("TravelRequests.Domain.Entities.SolicitudViaje", b =>
                 {
                     b.HasOne("TravelRequests.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("SolictudViaje")
+                        .WithMany("SolicitudesViaje")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -159,7 +176,7 @@ namespace TravelRequests.Infrastructure.Migrations
                 {
                     b.Navigation("CodigoRecuperacion");
 
-                    b.Navigation("SolictudViaje");
+                    b.Navigation("SolicitudesViaje");
                 });
 #pragma warning restore 612, 618
         }
