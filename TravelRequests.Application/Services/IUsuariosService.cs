@@ -3,7 +3,7 @@
 namespace TravelRequests.Application.Servicies;
 
 // Contrato servicio usuarios
-public interface IUsuariosServices
+public interface IUsuariosService
 {
     Task<UsuarioResponseDto> RegistrarUsuarioAsync(RegistrarUsuarioDto registrarDto);
     Task<string> LoginAsync(LoginUsuarioDto loginDto);

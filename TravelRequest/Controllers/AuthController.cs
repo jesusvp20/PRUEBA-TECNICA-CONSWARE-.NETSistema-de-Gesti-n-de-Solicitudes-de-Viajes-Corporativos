@@ -8,9 +8,9 @@ namespace TravelRequests.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IUsuariosServices _usuariosServices;
+        private readonly IUsuariosService _usuariosServices;
 
-        public AuthController(IUsuariosServices usuariosServices)
+        public AuthController(IUsuariosService usuariosServices)
         {
             _usuariosServices = usuariosServices;
         }

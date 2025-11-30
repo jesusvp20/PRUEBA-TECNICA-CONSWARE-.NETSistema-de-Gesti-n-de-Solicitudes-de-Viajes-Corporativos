@@ -8,9 +8,9 @@ namespace TravelRequests.API.Controllers
     [Route("api/[controller]")]
     public class RecuperacionContraseñaController : ControllerBase
     {
-        private readonly IUsuariosServices _usuariosServices;
+        private readonly IUsuariosService _usuariosServices;
 
-        public RecuperacionContraseñaController(IUsuariosServices usuariosServices)
+        public RecuperacionContraseñaController(IUsuariosService usuariosServices)
         {
             _usuariosServices = usuariosServices;
         }
