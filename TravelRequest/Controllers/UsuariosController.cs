@@ -10,9 +10,9 @@ namespace TravelRequests.API.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
-        private readonly IUsuariosServices _usuariosServices;
+        private readonly IUsuariosService _usuariosServices;
 
-        public UsuariosController(IUsuariosServices usuariosServices)
+        public UsuariosController(IUsuariosService usuariosServices)
         {
             _usuariosServices = usuariosServices;
         }
@@ -45,7 +45,7 @@ namespace TravelRequests.API.Controllers
             }
             catch (UnauthorizedAccessException)
             {
-                return Forbid();
+                return StatusCode(403, new { mensaje = "Solo usuarios con rol Aprobador pueden acceder" });
             }
         }
     }

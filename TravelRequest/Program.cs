@@ -38,6 +38,24 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
+
+    // Mensajes de error personalizados
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = async context =>
+        {
+            context.HandleResponse();
+            context.Response.StatusCode = 401;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("{\"mensaje\":\"No autorizado. Token inválido o expirado\"}");
+        },
+        OnForbidden = async context =>
+        {
+            context.Response.StatusCode = 403;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("{\"mensaje\":\"Acceso denegado. No tienes permisos para este recurso\"}");
+        }
+    };
 });
 
 // Autorización por rol
@@ -47,11 +65,15 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("SoloSolicitante", policy => policy.RequireRole("Solicitante"));
 });
 
-// Servicios
+// Repositorios
 builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 builder.Services.AddScoped<IRepositorioCodigoRecuperacion, RepositorioCodigoRecuperacion>();
+builder.Services.AddScoped<IRepositorioSolicitudViaje, RepositorioSolicitudViaje>();
+
+// Servicios
 builder.Services.AddScoped<IHasherContraseña, HasherContraseña>();
-builder.Services.AddScoped<IUsuariosServices, ServicioUsuarios>();
+builder.Services.AddScoped<IUsuariosService, UsuariosService>();
+builder.Services.AddScoped<ISolicitudesViajeService, SolicitudesViajeService>();
 
 // Controllers con formato de fecha
 builder.Services.AddControllers()
