@@ -1,8 +1,8 @@
-# 🚀 TravelRequests API
+#  TravelRequests API
 
 API RESTful para gestión de solicitudes de viajes corporativos desarrollada con .NET 10 y Clean Architecture.
 
-## 📋 Descripción
+##  Descripción
 
 Sistema que permite a una empresa gestionar solicitudes de viajes corporativos con:
 - Registro y autenticación de usuarios con JWT
@@ -126,7 +126,7 @@ dotnet test TravelRequests.Tests
 
 > **Documentación completa:** Disponible en Swagger UI al ejecutar la aplicación (`/swagger`)
 
-## 🔐 Autenticación
+##  Autenticación
 
 1. Registrar usuario en `/api/usuarios/registrar`
 2. Login en `/api/auth/login` → obtener token JWT
