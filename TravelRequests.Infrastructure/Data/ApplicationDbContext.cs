@@ -48,13 +48,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Justificacion).IsRequired().HasMaxLength(500);
             entity.Property(e => e.Estado).IsRequired();
 
-            // validacion: FechaRegreso > FechaIda
+            // validacion Fecha de regreso mayor a la  Fecha de ida
             entity.ToTable(tb => 
                 tb.HasCheckConstraint("CK_SolicitudViaje_Fechas", "[FechaRegreso] > [FechaIda]"));
         });
 
         // codigo recuperacion 
-  
         modelBuilder.Entity<CodigoRecuperacionContraseña>(entity =>
         {
             entity.HasKey(e => e.Id);

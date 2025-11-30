@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,16 +14,28 @@ namespace TravelRequest.Controllers;
 public class SolicitudesViajeController : ControllerBase
 {
     private readonly ISolicitudesViajeService _solicitudesService;
+    private readonly IValidator<CrearSolicitudViajeDto> _crearValidator;
+    private readonly IValidator<CambiarEstadoSolicitudDto> _cambiarEstadoValidator;
 
-    public SolicitudesViajeController(ISolicitudesViajeService solicitudesService)
+    public SolicitudesViajeController(
+        ISolicitudesViajeService solicitudesService,
+        IValidator<CrearSolicitudViajeDto> crearValidator,
+        IValidator<CambiarEstadoSolicitudDto> cambiarEstadoValidator)
     {
         _solicitudesService = solicitudesService;
+        _crearValidator = crearValidator;
+        _cambiarEstadoValidator = cambiarEstadoValidator;
     }
 
     // Crear solicitud
     [HttpPost]
     public async Task<IActionResult> Crear([FromBody] CrearSolicitudViajeDto request)
     {
+        // Validar con FluentValidation
+        var validacion = await _crearValidator.ValidateAsync(request);
+        if (!validacion.IsValid)
+            return BadRequest(new { mensaje = string.Join(", ", validacion.Errors.Select(e => e.ErrorMessage)) });
+
         try
         {
             var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
@@ -58,6 +71,11 @@ public class SolicitudesViajeController : ControllerBase
     [Authorize(Roles = "Aprobador")]
     public async Task<IActionResult> CambiarEstado(int id, [FromBody] CambiarEstadoSolicitudDto request)
     {
+        // Validar con FluentValidation
+        var validacion = await _cambiarEstadoValidator.ValidateAsync(request);
+        if (!validacion.IsValid)
+            return BadRequest(new { mensaje = string.Join(", ", validacion.Errors.Select(e => e.ErrorMessage)) });
+
         try
         {
             var rol = User.FindFirst(ClaimTypes.Role)?.Value ?? "";

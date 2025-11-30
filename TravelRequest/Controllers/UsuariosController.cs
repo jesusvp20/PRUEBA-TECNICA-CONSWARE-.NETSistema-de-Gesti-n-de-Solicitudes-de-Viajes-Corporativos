@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -11,16 +12,25 @@ namespace TravelRequests.API.Controllers
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuariosService _usuariosServices;
+        private readonly IValidator<RegistrarUsuarioDto> _registrarValidator;
 
-        public UsuariosController(IUsuariosService usuariosServices)
+        public UsuariosController(
+            IUsuariosService usuariosServices,
+            IValidator<RegistrarUsuarioDto> registrarValidator)
         {
             _usuariosServices = usuariosServices;
+            _registrarValidator = registrarValidator;
         }
 
         // Registro de usuario
         [HttpPost("registrar")]
         public async Task<IActionResult> Registrar([FromBody] RegistrarUsuarioDto request)
         {
+            // Validar con FluentValidation
+            var validacion = await _registrarValidator.ValidateAsync(request);
+            if (!validacion.IsValid)
+                return BadRequest(new { mensaje = string.Join(", ", validacion.Errors.Select(e => e.ErrorMessage)) });
+
             try
             {
                 var usuario = await _usuariosServices.RegistrarUsuarioAsync(request);

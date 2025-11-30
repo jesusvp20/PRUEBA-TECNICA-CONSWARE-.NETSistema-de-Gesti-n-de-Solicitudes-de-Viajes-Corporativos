@@ -1,9 +1,12 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TravelRequest.Middleware;
 using TravelRequests.Application.Servicies;
+using TravelRequests.Application.Validators;
 using TravelRequests.Domain.interfaces;
 using TravelRequests.Domain.Interfaces;
 using TravelRequests.Infrastructure.Data;
@@ -75,6 +78,9 @@ builder.Services.AddScoped<IHasherContraseña, HasherContraseña>();
 builder.Services.AddScoped<IUsuariosService, UsuariosService>();
 builder.Services.AddScoped<ISolicitudesViajeService, SolicitudesViajeService>();
 
+// registra todos los validadores del assembly
+builder.Services.AddValidatorsFromAssemblyContaining<RegistrarUsuarioValidator>();
+
 // Controllers con formato de fecha
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -115,7 +121,9 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Middleware
+// Middleware de errores global 
+app.UseErrorHandling();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
