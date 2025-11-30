@@ -7,6 +7,7 @@ namespace TravelRequests.Infrastructure.Repositorios;
 
 public class RepositorioUsuario : IRepositorioUsuario
 {
+    
     private readonly ApplicationDbContext _context;
     public RepositorioUsuario(ApplicationDbContext context)
     {
